@@ -15,10 +15,7 @@
     var priority = document.getElementById("priority").value;
     var description = document.getElementById("description").value;
 
-    console.log("fs", taskName, dueDate, estimatedMinutes);
     google.script.run.addTask(taskName, dueDate, estimatedMinutes, priority, minBlockSize, description);
-
-    console.log("subbmited");
 
     document.getElementById("taskName").value = '';
     document.getElementById("dueDate").value = '';
