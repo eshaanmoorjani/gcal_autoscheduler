@@ -1,2 +1,1 @@
-# gcal_autoscheduler
-tbd
+# Eshaan's Personal AutoScheduler
