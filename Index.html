@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  </head>
+  
+  <script>
+  
+  function submitTask() {
+    var taskName = document.getElementById("taskName").value;
+    var dueDate = document.getElementById("dueDate").value;
+    var estimatedMinutes = document.getElementById("estimatedMinutes").value;
+    var minBlockSize = document.getElementById("minBlockSize").value;
+    var priority = document.getElementById("priority").value;
+    var description = document.getElementById("description").value;
+
+    console.log("fs", taskName, dueDate, estimatedMinutes);
+    google.script.run.addTask(taskName, dueDate, estimatedMinutes, priority, minBlockSize, description);
+
+    console.log("subbmited");
+
+    document.getElementById("taskName").value = '';
+    document.getElementById("dueDate").value = '';
+    document.getElementById("estimatedMinutes").value = '';
+    document.getElementById("minBlockSize").value = '';
+    document.getElementById("estimatedMinutes").selectedIndex = -1;
+    document.getElementById("description").value = '';
+  }
+
+  function scheduleTasks() {
+    google.script.run.onChangeTrigger();
+  }
+
+  function resetTasks() {
+    google.script.run.resetTasks();
+  }
+
+  </script>
+  <body>
+    <h2>Input A Task</h2>
+    <form>
+      <label for="taskName">Task Name </label><br>
+      <input id="taskName"></input><br>
+      <label for="dueDate">Due Date</label><br>
+      <input type="date" id="dueDate"></input><br>
+      <label for="estimatedMinutes">Estimated Minutes</label><br>
+      <input id="estimatedMinutes"></input><br>
+      <label for="minBlockSize">Min Block Size</label><br>
+      <input id="minBlockSize"></input><br>
+
+      <label for="priority">Priority</label><br>
+      <select name="priority" id="priority">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <br>
+
+      <label for="description">Description (optional) </label><br>
+      <input id="description"></input><br>
+
+      <input type="button" value="Submit" onclick="submitTask()"><br>
+
+      <input type="button" value="Schedule Tasks" onclick="scheduleTasks()"><br>
+      <input type="button" value="Reset Tasks" onclick="resetTasks()">
+    </form>
+  </body>
+</html>
