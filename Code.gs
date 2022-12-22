@@ -145,11 +145,11 @@ function onChangeTrigger() {
 
   let taskEvents = CalendarApp.getDefaultCalendar().getEvents(today, maxDate, {search: TASK_IDENTIFIER});
   taskEvents.forEach(function(event) {
-    if (event.getGuestList(true).length == 0) {
-      return;
-    }
-    let selfGuest = event.getGuestByEmail("eshaan@berkeley.edu");
-    if (selfGuest.getGuestStatus() == CalendarApp.GuestStatus.YES) {
+        // if (event.getGuestList(true).length == 0) {
+        //   return;
+        // }
+    let selfGuest = event.getGuestByEmail(Session.getActiveUser().getEmail());
+    if (event.getGuestList(true).length == 0 || selfGuest.getGuestStatus() == CalendarApp.GuestStatus.YES) {
 
       let timePassed = (event.getEndTime().getTime() - event.getStartTime().getTime()) / (1000 * 60);
       lowerTaskEstimatedTime(event.getTitle(), timePassed);
@@ -241,7 +241,7 @@ function scheduleTasks() {
 
           var endTime = new Date(currentTime.getTime() + blockSize * 60000);
 
-          var taskEvent = CalendarApp.getDefaultCalendar().createEvent(taskName, currentTime, endTime, {guests: 'eshaan@berkeley.edu'});
+          var taskEvent = CalendarApp.getDefaultCalendar().createEvent(taskName, currentTime, endTime, {guests: Session.getActiveUser().getEmail()});
           taskEvent.setDescription(sortedTasks[tasksIndex][5]);
 
           changeScheduledTaskTime(taskName, blockSize);
@@ -285,7 +285,7 @@ function resetApp() {
   maxDate.setDate(maxDate.getDate() + DAYS_IN_ADVANCE);
   let taskEvents = CalendarApp.getDefaultCalendar().getEvents(today, maxDate, {search: TASK_IDENTIFIER});
   taskEvents.forEach(function(event) {
-    if (event.getGuestByEmail("eshaan@berkeley.edu").getGuestStatus() == CalendarApp.GuestStatus.YES) {
+    if (event.getGuestList(true).length == 0 || event.getGuestByEmail(Session.getActiveUser().getEmail()).getGuestStatus() == CalendarApp.GuestStatus.YES) {
       return;
     }
     event.deleteEvent();
